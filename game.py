@@ -1,25 +1,26 @@
 import pygame
 
+# pygame setup
 pygame.init()
-
-screen = pygame.display.set_mode((1280,720))
-
+screen = pygame.display.set_mode((1280, 720))
 clock = pygame.time.Clock()
+running = True
 
-while True:
-    # Process player inputs.
+while running:
+    # poll for events
+    # pygame.QUIT event means the user clicked X to close your window
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            pygame.quit()
-            raise SystemExit
+            running = False
 
-    # Do logical updates here.
-    # ...
+    # fill the screen with a color to wipe away anything from last frame
+    screen.fill("purple")
 
-    screen.fill("grey")  # Fill the display with a solid color
+    # RENDER YOUR GAME HERE
 
-    # Render the graphics here.
-    # ...
+    # flip() the display to put your work on screen
+    pygame.display.flip()
 
-    pygame.display.flip()  # Refresh on-screen display
-    clock.tick(60)         # wait until next frame (at 60 FPS)
+    clock.tick(60)  # limits FPS to 60
+
+pygame.quit()
