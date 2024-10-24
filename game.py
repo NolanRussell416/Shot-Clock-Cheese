@@ -1,23 +1,18 @@
 import pygame
+from helpers import build_background
+
+WIDTH = 1260
+HEIGHT = 720
 
 # pygame setup
 pygame.init()
 clock = pygame.time.Clock()
 running = True
-
-#make a background
-WIDTH = 1280
-HEIGHT = 720
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-background = pygame.Surface((WIDTH,HEIGHT))
-light_green = (47,153,67)
-dark_green = (47,173,67)
-background.fill(dark_green)
-stripe_width = 30
-stripe = pygame.Surface((stripe_width, HEIGHT))
-stripe.fill(light_green)
-for x in range(0,WIDTH,stripe_width*2):
-    background.blit(stripe,(x,0))
+
+#make background
+background = build_background(WIDTH, HEIGHT)
+
 
 #start game
 while running:
@@ -26,6 +21,7 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
+
     #blit background to screen
     screen.blit(background,(0,0))
 
