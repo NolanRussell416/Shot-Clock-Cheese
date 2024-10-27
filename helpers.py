@@ -15,17 +15,26 @@ def build_background(WIDTH, HEIGHT):
     horizontal = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (2).png')
     corner1 = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (5).png')
     vertical = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (1).png')
+    corner2 = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (23).png')
+    corner3 = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (27).png')
+    corner4 = pygame.image.load('kenney_sports-pack/PNG/Elements/Element (9).png')
     TILE_SIZE = vertical.get_height()
     
     # loop over x direction
     for x in range(90,1140,TILE_SIZE):
             # blit the tile to our BG
             background.blit(horizontal, (x,10))
-
     background.blit(corner1, (30,10))
-
     for y in range(60,592,TILE_SIZE):
             # blit the tile to our BG
             background.blit(vertical, (30,y))
-        
+    background.blit(corner2, (30,610))
+    for x in range(90,1140,TILE_SIZE):
+            # blit the tile to our BG
+            background.blit(horizontal, (x,610))
+    background.blit(corner3, (1160,610))    
+    for y in range(60,592,TILE_SIZE):
+            # blit the tile to our BG
+            background.blit(vertical, (1160,y))
+    background.blit(corner4, (1160,10))        
     return background
