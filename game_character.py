@@ -46,7 +46,7 @@ class Player(pygame.sprite.Sprite):
     def check_border(self):
         # make sure our player rect is inside of some rect we set
         border_rect = pygame.rect.Rect(0, 0, self.screen_w, self.screen_h)
-        #if the ships rectangle leaves border, then set speed to 0
+        #if the player rectangle leaves border, then set speed to 0
         if not border_rect.contains(self.rect):
             # only reverse if its been >500ms from last time
             if pygame.time.get_ticks() - self.reverse_time > 500:

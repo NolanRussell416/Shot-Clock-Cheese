@@ -10,3 +10,4 @@
 ### - Red player use the arrow keys keys to move your player
 ### - Press Spacebar to kick the ball
 ### - Shoot into the goal to score
+### - Score 5 goals to win

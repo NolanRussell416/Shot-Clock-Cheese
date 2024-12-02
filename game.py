@@ -1,5 +1,5 @@
 import pygame
-from helpers import build_background, loop_instructions
+from helpers import build_background, loop_instructions, red_win, green_win
 from game_character import Player
 from ball import Ball
 from opposing_player import Opposing_Player
@@ -11,8 +11,10 @@ HEIGHT = 720
 pygame.init()
 pygame.mixer.init()
 
+#play music
 bg_music = pygame.mixer.Sound('kenney_sports-pack/PNG/spotifydown.com - Dança do Pombo.mp3')
 bg_music.play(-1)
+
 clock = pygame.time.Clock()
 running = True
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -20,8 +22,7 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 #make background
 background = build_background(WIDTH, HEIGHT)
 
-keys = pygame.key.get_pressed()
-#make character
+#make character groups
 team_group = pygame.sprite.Group()
 enemy_group = pygame.sprite.Group()
 
@@ -36,11 +37,14 @@ enemy1 = Opposing_Player(screen, 900, 360)
 team_group.add(player1) 
 enemy_group.add(enemy1)
 
+# make score 
 P1score = [0]
 P2score =[0]
 score_font = pygame.font.Font('kenney_sports-pack/PNG/quicksand/Quicksand-Bold.otf', size=40)
 
+#load instruction screen
 running = loop_instructions(screen)
+
 #start game
 while running:
     # poll for events
@@ -49,10 +53,11 @@ while running:
         if event.type == pygame.QUIT:
             running = False
     
+    #update sprite groups
     team_group.update()
     enemy_group.update()
 
-    #add ball collision
+    #add ball collision to player
     if ball1.check_collision(player1):
         ball1.theta = player1.theta
         ball1.speed+=1
@@ -62,7 +67,7 @@ while running:
         ball1.speed+=1
         ball1.check_keys()
 
-    #add player collision
+    #check player collision
     if player1.check_collision(enemy1):
         enemy1.speed = -0.7 * enemy1.speed
         player1.speed = -0.7 * player1.speed
@@ -91,8 +96,14 @@ while running:
         ball1.x = 1260//2
         ball1.y = 720//2
         P2score[0] += 1
+    
+    #add winning game screen 
+    if P1score[0] == 5:
+        running = green_win(screen)
+    if P2score[0] == 5:
+        running = red_win(screen)
 
-    # flip() the display to put your work on screen
+    # flip the display to put your work on screen
     pygame.display.flip()
 
     clock.tick(60)  # limits FPS to 60

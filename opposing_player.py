@@ -5,21 +5,23 @@ import pygame
 class Opposing_Player(Player):
     def __init__(self, screen, x, y, theta=180, color = 'red'):
         super().__init__(screen, x, y, theta, color)
-        self.color = color
+        self.color = color 
+
     def deg_to_rad(self, deg):
         # converts deg to rad
         rad = (deg/180) * pi
         return rad
     
     def enemy_check_keys(self):
-        # check keys to move ship around
+        # check keys to move player around
         keys = pygame.key.get_pressed()
-        # check w,s up/down
+
+        # check up, down keys 
         if keys[pygame.K_UP]:
             self.speed += 0.2
         if keys[pygame.K_DOWN]:
             self.speed -= 0.2
-        # check a, d theta left/right
+        # check left, right keys
         if keys[pygame.K_LEFT]:
             self.theta += 3
         if keys[pygame.K_RIGHT]:
@@ -28,7 +30,7 @@ class Opposing_Player(Player):
     def check_border(self):
         # make sure our player rect is inside of some rect we set
         border_rect = pygame.rect.Rect(0, 0, self.screen_w, self.screen_h)
-        #if the ships rectangle leaves border, then set speed to 0
+        #if the player rectangle leaves border, then set speed to 0
         if not border_rect.contains(self.rect):
             # only reverse if its been >500ms from last time
             if pygame.time.get_ticks() - self.reverse_time > 500:
@@ -50,9 +52,9 @@ class Opposing_Player(Player):
 
     def update(self):
         if self.color == 'green':   
-            self.check_keys() # only if influenced by keys
+            self.check_keys() #wasd keys
         else:
-            self.enemy_check_keys()
+            self.enemy_check_keys()#arrow keys
           
         # get x and y components of speed
         theta_rad = self.deg_to_rad(self.theta)
@@ -72,22 +74,3 @@ class Opposing_Player(Player):
         self.image = pygame.transform.rotozoom(self.orig_image, self.theta, 2)
         self.rect = self.image.get_rect(center = (self.x, self.y))
         self.check_border()
-
-
-
-
-
-    
-    #     self.ball = ball
-
-    # def track_ball(self):
-    #     # overwriting checking keyboard and instead player makes its own decisions
-    #     # set the speed
-    #     # get the position of the player (lag)
-    #     dx = self.ball.x - self.x 
-    #     dy = self.ball.y - self.y
-    #     # self.x += dx
-    #     # self.y -= dy
-
-    #     # if delta is too small do nothing!
-    #     self.theta = degrees(atan2(dx,dy))
