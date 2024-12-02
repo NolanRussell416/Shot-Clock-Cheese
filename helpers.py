@@ -59,12 +59,10 @@ def build_background(WIDTH, HEIGHT):
 def make_instructions(screen, color):
     # black screen
     screen.fill(color)
-
     WIDTH = screen.get_width()
-
     instructions = [
-        'Player 1 use the arrow keys to move your player',
-        'Player 2 use WASD keys to move your player',
+        'Green player use the WASD keys to move your player',
+        'Red player use the arrow keys keys to move your player',
         'Press Spacebar to kick the ball',
         'Shoot into the goal to score',
         '',
@@ -72,7 +70,7 @@ def make_instructions(screen, color):
     ]
 
     # make an instruction font
-    i_font = pygame.font.Font('kenney_sports-pack/PNG/chunkfive/Chunkfive-Regular.otf', size=50)
+    i_font = pygame.font.Font('kenney_sports-pack/PNG/chunkfive/Chunkfive-Regular.otf', size=45)
     spacing = 80
     # render (make surface) for each instruction
     for ii in range(len(instructions)):
@@ -98,9 +96,7 @@ def loop_instructions(screen):
             if event.type == pygame.KEYDOWN:
                 # if any key pressed, break
                 waiting = 0
-        
         make_instructions(screen, (0, 0, 0))
-
         pygame.display.flip()
     
     return running

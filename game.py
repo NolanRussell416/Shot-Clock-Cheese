@@ -72,7 +72,7 @@ while running:
 
     #draw players, ball, and score
     black = pygame.Color('#000000')
-    score_text = f"Player 1: {P1score[0]} | Player 2: {P2score[0]}"
+    score_text = f"Green: {P1score[0]} | Red: {P2score[0]}"
     score_surface = score_font.render(score_text, 1, black)
     score_rect = score_surface.get_rect()
     score_rect.topleft = (0,0)
@@ -81,7 +81,6 @@ while running:
     screen.blit(ball1.image, ball1.rect)
     team_group.draw(screen)
     enemy_group.draw(screen)
-    print(player1.y)
 
     #add scoring
     if 1190 < ball1.x < WIDTH and 175 < ball1.y < 485:
