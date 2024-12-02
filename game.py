@@ -14,7 +14,11 @@ screen = pygame.display.set_mode((WIDTH, HEIGHT))
 background = build_background(WIDTH, HEIGHT)
 
 #make character
-player1 = Player(200,200)
+player1 = Player(screen,200,200, WIDTH, HEIGHT)
+team_group = pygame.sprite.Group()
+
+# add our sprite to the sprite group
+team_group.add(player1) 
 
 #start game
 while running:
@@ -23,31 +27,17 @@ while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-    #move character
-    if event.type == pygame.KEYDOWN:
-            k = pygame.key.name(event.key)
-            # check if k is right, left, up down
-            if k == 'right':
-                player1.theta -= 1
-            elif k == 'left':
-                player1.theta += 1
-            elif k == 'up':
-                player1.speed += 0.1
-            elif k == 'down':
-                player1.speed -= 0.1
-
-    # update the ships position
-    player1.update()
+    
+    team_group.update()
 
     #blit background to screen
     screen.blit(background,(0,0))
 
     #draw player
-    player1.draw(screen)
+    team_group.draw(screen)
 
     # fill the screen with a color to wipe away anything from last frame
     
-
     # RENDER YOUR GAME HERE
 
     # flip() the display to put your work on screen
