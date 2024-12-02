@@ -4,25 +4,23 @@ import pygame
 WIDTH = 1260
 HEIGHT = 720
 class Player(pygame.sprite.Sprite):
-    def __init__(self, screen, x, y, theta=270, color = 'green'):
+    def __init__(self, screen, x, y, theta = 0, color = 'green'):
         pygame.sprite.Sprite.__init__(self)
         self.x = x
         self.y = y
         self.speed = 0
         self.theta = theta # degrees
         self.color = color
-        self.orig_image = pygame.image.load('kenney_sports-pack/PNG/Green/CharacterGreen (4).png')
-        # else:
-        #     self.orig_image = pygame.image.load('assets/Ships/ship (2).png')
+        if self.color == 'green':
+            self.orig_image = pygame.image.load('kenney_sports-pack/PNG/Green/CharacterGreen (4).png')
+        else:
+            self.orig_image = pygame.image.load('kenney_sports-pack/PNG/Red/CharacterRed (3).png')
         self.image = self.orig_image # keep orig image to never be rotated
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        self.image = self.orig_image # keep orig image to never be rotated
-        self.rect = self.image.get_rect()
-        self.max_speed = 5
+        self.max_speed = 3
         self.screen = screen
         self.reverse_time = pygame.time.get_ticks()
-        self.length = self.rect.height + 5
         self.screen_w = WIDTH
         self.screen_h = HEIGHT
     
@@ -32,19 +30,19 @@ class Player(pygame.sprite.Sprite):
         return rad
     
     def check_keys(self):
-        # check keys to move ship around
+        # check keys to move  around
         keys = pygame.key.get_pressed()
         # check w,s up/down
-        if keys[pygame.K_UP]:
-            self.speed += 0.5
-        if keys[pygame.K_DOWN]:
-            self.speed -= 0.5
+        if keys[pygame.K_w]:
+            self.speed += 0.2
+        if keys[pygame.K_s]:
+            self.speed -= 0.2
         # check a, d theta left/right
-        if keys[pygame.K_LEFT]:
-            self.theta += 2
-        if keys[pygame.K_RIGHT]:
-            self.theta -= 2
-    
+        if keys[pygame.K_a]:
+            self.theta += 3
+        if keys[pygame.K_d]:
+            self.theta -= 3
+
     def check_border(self):
         # make sure our player rect is inside of some rect we set
         border_rect = pygame.rect.Rect(0, 0, self.screen_w, self.screen_h)
@@ -63,25 +61,29 @@ class Player(pygame.sprite.Sprite):
             self.rect.top = 0
         if self.rect.bottom > self.screen_h:
             self.rect.bottom = self.screen_h
+    
+    def check_collision(self, player):
+        # Check if the player's rect collides with another object's rect
+        return self.rect.colliderect(player)
 
     def update(self):
-        self.check_keys() # only red if influenced by keys
-        
+        self.check_keys() # only if influenced by keys
+          
+        # get x and y components of speed
+        theta_rad = self.deg_to_rad(self.theta)
+        dx = cos(theta_rad) * self.speed
+        dy = sin(theta_rad) * self.speed
+
+        self.x += dx
+        self.y -= dy
+
         # check and make sure we are moving too fast
         if self.speed > self.max_speed:
             self.speed = self.max_speed 
         elif self.speed < -self.max_speed:
             self.speed = -self.max_speed
-          
-        # get x and y components of speed
-        theta_rad = self.deg_to_rad(self.theta)
-        x_dot = cos(theta_rad) * self.speed
-        y_dot = sin(theta_rad) * self.speed
-
-        self.x += x_dot
-        self.y -= y_dot
-
-        # now rotate the image and drew new rect
-        self.image = pygame.transform.rotozoom(self.orig_image, self.theta, 0.7)
+        
+        # now rotate the image and draw new rect
+        self.image = pygame.transform.rotozoom(self.orig_image, self.theta, 2)
         self.rect = self.image.get_rect(center = (self.x, self.y))
         self.check_border()
